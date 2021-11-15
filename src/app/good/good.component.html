@@ -1,0 +1,71 @@
+
+<div *ngIf="good | async as good; " style="margin-left: 50px">
+    <img style="width: 28rem; margin: 16px;" src="{{good.photo}}" >
+    <h4 class="card-title">{{good.title}}</h4>
+
+    <ngb-rating [(rate)]="good.rating" readonly="true">
+        <ng-template let-fill="fill" let-index="index" >
+            <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+        </ng-template>
+    </ngb-rating>
+    <hr>
+    <pre>Rate: <b>{{good.rating}}</b></pre>
+
+    <p class="card-text">{{good.feature}}</p>
+    <h5>{{good.price}}</h5>
+   <p>{{good.max_sale}}</p>
+    <p>price min: {{(100-good.max_sale)/100*good.price}}</p>
+   <!-- <div *ngFor="let sale1 of good.sales">sale good{{sale1.value_percentage}}</div>
+    <div *ngFor="let sale2 of good.category.sales">sale category{{sale2.value_percentage}}</div>
+    <div *ngFor="let sale3 of good.category.area_category.sales ">sale area{{sale3.value_percentage}}</div>-->
+    <button type="button" class="btn btn-success"
+             (click)="AddToCart(good, count)">buy</button>
+
+    <h5 style="margin-top: 50px">Reviews</h5>
+    <div *ngFor="let review of good.reviews" style="width: 80%">
+        <div style="display: flex; flex-direction: row;  align-items: center;">
+            <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: start">
+                <div>{{review.author.first_name}}</div>
+                <div style="font-size: x-small">{{review.updated_at| date:'medium': null:'en'}}</div>
+                <div style="margin: 5px">{{review.mark}}</div>
+
+                <ngb-rating [(rate)]="review.mark" readonly="true">
+                    <ng-template let-fill="fill" let-index="index">
+                        <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                    </ng-template>
+                </ngb-rating>
+            </div>
+            <div>{{review.text}}</div>
+            <div style="margin: 5px">
+                <button class="btn btn-primary" (click)="openReviewEdit(review)">edit</button>
+            </div>
+            <div style="margin: 5px">
+                <button class="btn btn-danger" (click)="removeReview(review)">delete</button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="form-review" style="margin-left: 30px"><h5>write your own review</h5>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+            <div><label >rate the product</label></div>
+
+            <ngb-rating [(rate)]="mark" formControlName="mark">
+                <ng-template let-fill="fill" let-index="index">
+                    <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                </ng-template>
+            </ngb-rating>
+        </div>
+        <div class="form-group">
+            <label for="productReviewText">add your product review text</label>
+            <input type="text" class="form-control" id="productReviewText" placeholder="Text review" formControlName="text" >
+        </div>
+        <div class="form-group" style="visibility: hidden;">
+            <input   class="form-control" id="id"  formControlName="id" value="">
+        </div>
+        <button type="submit" class="btn btn-secondary" [disabled]="form.invalid || submitted">Submit</button>
+    </form>
+</div>

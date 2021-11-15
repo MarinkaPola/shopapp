@@ -1,0 +1,24 @@
+<div>
+    <div class="qty mt-5" *ngFor="let good of goods" >
+
+        <div>
+            <img style="width: 28rem; margin: 16px;" src="{{good.photo}}">
+            <h5 class="card-title">{{good.title}}</h5>
+            <div>{{good.price}}</div>
+            <div>{{good.min_price}}</div>
+            <p class="card-text">{{good.feature}}</p>
+        </div>
+        <button class="btn btn-success" style="font-weight: 900 " (click)="Decrease(good)">-</button>
+        <label>
+            <input type="number" class="count" name="qty" value="{{good.pivot.count}}">
+        </label>
+        <button class="btn btn-success" style="font-weight: 900 "(click)="Increase(good)">+</button>
+        <span>{{good.min_price*good.pivot.count}}</span>
+        <button class="btn btn-danger" (click)="Delete(good)">X</button>
+        </div>
+    <div>{{sum}}</div>
+    <a class="btn btn-warning" (click)="checkout()">checkout</a>
+</div>
+
+
+

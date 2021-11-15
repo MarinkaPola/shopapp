@@ -1,0 +1,25 @@
+
+<ul class="list-group container-orders" *ngFor="let order of orders ">
+    <li class="list-group-item" style="width: 100%; border-radius: 3px; border: solid 1px #31ffb9; background-color:#e3f5ec;">
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div><h5>Order №{{order.id}}</h5></div>
+            <div style="padding-left: 10px">create:{{order.created_at | date:'medium': null:'en'}}</div>
+            <div style="padding-left: 10px">changed:{{order.updated_at | date:'medium': null:'en'}}</div>
+        </div>
+        <div><span style="font-weight: bold">total price:</span> {{order.sum}}$</div>
+        <div><span style="font-weight: bold">payment:</span> {{order.payment}}</div>
+        <div><span style="font-weight: bold">delivery:</span> {{order.delivery}}</div>
+        <div *ngIf="order.goods_is_paid==0" style="font-weight: bold; color: #e34138">not paid</div>
+        <div *ngIf="order.goods_is_paid==1" style="font-weight: bold; color: #33cf5d">paid</div>
+        <div *ngFor="let good of order.order_goods"
+             style="display: flex; flex-direction: row; justify-content: space-around; align-items: center;
+             border: solid 1px #31ffb9; margin:4px; background-color:white; border-radius: 3px">
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; width: 30%; margin-left: 10%; ">
+                <img style="width: 3rem; margin: 16px;" src="{{good.photo}}">
+                <h6 style="margin: 16px;" class="card-title">{{good.title}}</h6>
+            </div>
+            <div style="font-size: 1.5rem; width: 30%; text-align: center">{{good.pivot}}</div>
+            <div style="width: 30%;">{{good.price}}$</div>
+        </div>
+    </li>
+</ul>

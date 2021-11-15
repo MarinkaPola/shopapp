@@ -1,0 +1,25 @@
+<p>discount on goods in this category:</p>
+<div class="area-category-goods">
+    <div *ngFor="let good of goods ">
+        <div class="card" style="width: 18rem; margin: 10px;">
+            <img class="card-img-top" src="{{good.photo}}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{good.title}}</h5>
+                <div>{{good.rating}}</div>
+                <div *ngFor="let sale of good.category.sales ">{{sale.value_percentage}}
+                    <!--                        <div *ngIf="sale.value_percentage as sale_area">{{sale_area}}</div>-->
+                </div>
+                <p class="card-text">{{good.feature}}</p>
+                <a routerLink="goods/{{good.id}}" class="btn btn-primary" routerLinkActive="active" >open detailed specifications</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="goods.length ==0"><p class="not-found">loading goods...</p></div>
+
+<div *ngIf="meta">
+    <button><a (click)="prevPage()">Prev</a></button>
+    <p>Page {{meta.current_page}} of {{meta.last_page}}</p>
+    <button><a (click)="nextPage()">Next</a></button>
+</div>

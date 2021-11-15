@@ -1,0 +1,33 @@
+<nav class="navbar main">
+    <h1>TECHNO</h1>
+    <div class="control">
+        <button type="button" class="btn btn-primary" *ngIf="!checkAuth()"
+                routerLink="register">Register
+        </button>
+        <button type="button" class="btn btn-primary" *ngIf="!checkAuth()"
+                routerLink="login">Login
+        </button>
+        <button type="button" class="btn btn-primary" (click)="logout($event)" *ngIf="checkAuth()"
+        >Logout
+        </button>
+    </div>
+</nav>
+<app-alert></app-alert>
+<div >
+    <div class="foo">
+        <menu style="padding-inline-start: 10px; width: 15%; margin-top: 10px"></menu>
+    <router-outlet></router-outlet>
+    </div>
+</div>
+
+
+
+
+<footer class="footer mt-auto py-3">
+
+    <div class="footer-copyright text-center py-3">© 2021 Copyright:
+        <a href="https://mdbootstrap.com/">Bootstrap.com</a>
+    </div>
+
+</footer>
+

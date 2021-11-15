@@ -1,0 +1,22 @@
+<div class="main-page">
+    <div *ngFor="let good of goods ">
+        <div class="card" style="width: 18rem; margin: 10px;">
+            <img class="card-img-top" src="{{good.photo}}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{good.title}}</h5>
+                <p class="card-text">{{good.feature}}</p>
+                <a class="btn btn-primary"
+                   routerLink="area/{{good.category.area_category.id}}/category/{{good.category_id}}/goods/{{good.id}}">
+                    open detailed specifications</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="goods.length ==0"><p class="not-found">loading goods...</p></div>
+
+
+<button><a (click)="prevPage()" [routerLink]="['']" [queryParams]="{current_page: current_page}" queryParamsHandling="merge">Prev</a></button>
+<p>Page {{meta.current_page}} of {{meta.last_page}}</p>
+
+<button><a [routerLink]="[]" [queryParams]="{current_page: current_page+1}" >Next</a></button>
+<button><a (click)="nextPage(current_page)">Next</a></button>

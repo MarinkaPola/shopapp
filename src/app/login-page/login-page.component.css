@@ -1,0 +1,51 @@
+form{
+    margin-top: 5%;
+    max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.btn{
+    font-size: 2rem;
+    border-radius: 8px;
+}
+
+button{
+    width: 100%;
+    padding: 0;
+}
+
+.form-control{
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background-color: #d8ecff;
+    height: 100%;
+}
+.card{
+    background-color: #d8ecff;
+    border-radius: 8px;
+    border: 1.5px solid #7177d9;
+}
+
+input{
+    border: 1px solid #6a9fcc;
+    border-radius: 6px;
+    background-color: #fbfffd;
+}
+
+.email {
+    background-color: #fffdf5;
+}
+
+h2{
+    padding-left: 20px;
+}
+
+.indent{
+    padding-right: 20px;
+}
+
+input:-internal-autofill-selected {
+    background-color: -internal-light-dark(rgb(232, 240, 254), rgba(255, 255, 205, 0.4)) !important;
+}
