@@ -30,6 +30,7 @@ import {AuthGuard} from "./auth-guard.service";
 import {JwtService} from "./jwt.service";
 
 
+
 registerLocaleData(ruLocale, 'ru');
 
 @NgModule({
@@ -47,7 +48,7 @@ registerLocaleData(ruLocale, 'ru');
         UserAccountComponent,
         OrderComponent,
         OrdersComponent,
-        AlertComponent
+        AlertComponent,
     ],
     imports: [
         BrowserModule,

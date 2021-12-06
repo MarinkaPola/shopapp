@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {Good, Review} from './shared/interface';
 import {environment} from '../environments/environment';
 import { map} from 'rxjs/operators';
@@ -10,7 +10,9 @@ import { map} from 'rxjs/operators';
 @Injectable({providedIn: 'root'})
 export class GoodService {
     err: string;
-
+    public search = new BehaviorSubject('');
+    currentSearch = this.search.asObservable();
+    public subjBuy = new Subject<any>();
 
     constructor(private http: HttpClient) {
     }
@@ -22,6 +24,10 @@ export class GoodService {
         console.log(queryString);
         return this.http.get(`${environment.Url}/goods?${queryString}`)
 
+    }
+
+    getBrands() {
+        return this.http.get(`${environment.Url}/index_brand`)
     }
 
     getById(id: number): Observable<Good> {
@@ -63,5 +69,17 @@ export class GoodService {
             }));
     }
 
+    public  changeSearch(search:string){
+        this.search.next(search);
+        console.log(this.search);
+    }
 
+    getMessageUpdateGoods(): Observable<any> {
+        return this.subjBuy.asObservable();
+    }
+
+    UpdateGoods() {
+        this.subjBuy.next({event: 'changeSearch'});
+        console.log({event: 'changeSearch'});
+    }
 }

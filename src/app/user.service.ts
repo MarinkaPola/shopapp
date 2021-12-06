@@ -21,9 +21,8 @@ export class UserService {
 
     private currentUserSubject = new BehaviorSubject<User>({} as User);
     private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  // public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
-   // public isAuthenticated = this.isAuthenticatedSubject.asObservable().pipe(distinctUntilChanged());
-
+    // public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
+    // public isAuthenticated = this.isAuthenticatedSubject.asObservable().pipe(distinctUntilChanged());
 
 
     constructor(
@@ -65,6 +64,7 @@ export class UserService {
         // Set auth status to false
         this.isAuthenticatedSubject.next(false);
     }
+
     /*
         // Update the user on the server (email, pass, etc)
         update(user): Observable<User> {
@@ -79,7 +79,7 @@ export class UserService {
     getById(id: number): Observable<any> {
         console.log(id);
         return this.http.get<any>(`${environment.Url}/user/${id}`)
-            .pipe(map((response:ServerResponse) => {
+            .pipe(map((response: ServerResponse) => {
                 return response.data
             }));
     }
@@ -91,7 +91,7 @@ export class UserService {
                     this.setAuth(res.data);
                     this.router.navigate([`/`]);
                 } else {
-                    this.router.navigate([`register`] );
+                    this.router.navigate([`register`]);
                 }
             }
         )
@@ -126,7 +126,15 @@ export class UserService {
                 this.setAuth(res.data);
                 this.router.navigate([`/`]);
             } else {
-                this.router.navigate([`register`] );
-            }})
+                this.router.navigate([`register`]);
+            }
+        })
     }
+
+
+
+
+
+
+
 }

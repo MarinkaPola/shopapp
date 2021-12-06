@@ -1,3 +1,15 @@
+<select [(ngModel)]="query_param" (change)="onChangeGoods($event)" [compareWith]="compareFn" >
+    <option [ngValue]="{'sortBy': 'price', 'sortOrder': 'asc'}" > От дешевых к дорогим</option>
+    <option [ngValue]="{'sortBy':'price', 'sortOrder':'desc'}" > От дорогих к дешевым</option>
+    <option [ngValue]="{'sortBy':'rating', 'sortOrder':'desc'}" > По рейтингу</option>
+</select>
+
+
+<select [(ngModel)]="brand" (change)="onChangeBrand($event)" [compareWith]="compareFn" >
+    <option [ngValue]="''" >BRAND not selected</option>
+    <option [ngValue]="brand" *ngFor="let brand of brands">{{brand}}</option>
+</select>
+
 <p>discount on goods in this category:</p>
 <div class="area-category-goods">
     <div *ngFor="let good of goods ">
@@ -18,7 +30,7 @@
 
 <div *ngIf="goods.length ==0"><p class="not-found">loading goods...</p></div>
 
-<div *ngIf="meta">
+<div *ngIf="meta&&meta.last_page>1">
     <button><a (click)="prevPage()">Prev</a></button>
     <p>Page {{meta.current_page}} of {{meta.last_page}}</p>
     <button><a (click)="nextPage()">Next</a></button>

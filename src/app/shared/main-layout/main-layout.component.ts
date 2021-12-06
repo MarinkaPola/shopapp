@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {UserAuth} from "../interface";
 import {UserService} from "../../user.service";
+import {GoodService} from "../../good.service";
+
+
 
 
 @Component({
@@ -10,16 +13,20 @@ import {UserService} from "../../user.service";
   styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent implements OnInit {
-   user:UserAuth;
+    user: UserAuth;
+    search :string = '';
 
-  constructor(private userService: UserService, private router: Router) {
 
-  }
+    constructor(private userService: UserService, private goodService: GoodService,
+                private router: Router) {
 
-  ngOnInit() {
-  }
-    checkAuth(){
-        if(localStorage.getItem('user-token')!==null){
+    }
+
+    ngOnInit() {
+    }
+
+    checkAuth() {
+        if (localStorage.getItem('user-token') !== null) {
             return true;
         }
         return false;
@@ -30,5 +37,12 @@ export class MainLayoutComponent implements OnInit {
         event.preventDefault();
         this.userService.logout();
         this.router.navigate(['']);
+    }
+
+    SearchGood(search) {
+        this.search = search;
+        console.log(this.search);
+        this.goodService.changeSearch(this.search);
+        this.goodService.UpdateGoods();
     }
 }

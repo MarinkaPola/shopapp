@@ -21,14 +21,14 @@ const routes: Routes = [
 
    path: '', component: MainLayoutComponent,
       children: [
-          {path: '', redirectTo: '/', pathMatch: 'full'},
-          {path: '', component: MainPageComponent},
+          {path: '', redirectTo: '/main', pathMatch: 'full'},
+          {path: 'main', component: MainPageComponent},
           {path: 'order/:id', component:OrderComponent},
           {path: 'orders', component:OrdersComponent},
           {path: 'basket', component:BasketComponent},
-          {path: 'area/:id', component: AreaGoodsComponent},
-          {path: 'area/:id/category/:id', component: AreaCategoryGoodsComponent},
-          {path: 'area/:id/category/:id/goods/:id', component:GoodComponent},
+          {path: 'main/area/:id', component: AreaGoodsComponent},
+          {path: 'main/area/:id/category/:id', component: AreaCategoryGoodsComponent},
+          {path: 'main/area/:id/category/:id/goods/:id', component:GoodComponent},
 
        ]
   },

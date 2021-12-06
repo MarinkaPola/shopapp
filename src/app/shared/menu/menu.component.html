@@ -1,7 +1,7 @@
 
 <div *ngFor="let area of areas" >
     <div class="btn-group dropright button-menu" role="group">
-        <button type="button" class="btn btn-secondary " routerLink="area/{{area.id}}">
+        <button type="button" class="btn btn-secondary " routerLink="main/area/{{area.id}}">
             {{area.title}}
         </button>
         <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split arrow" data-toggle="dropdown"
@@ -10,7 +10,7 @@
         <div class="dropdown-menu" >
             <div *ngFor="let area_category of area.area_categories">
                 <a class="dropdown-item"
-                  routerLink="area/{{area.id}}/category/{{area_category.id}}">{{area_category.title}}
+                  routerLink="main/area/{{area.id}}/category/{{area_category.id}}">{{area_category.title}}
                 </a>
             </div>
         </div>

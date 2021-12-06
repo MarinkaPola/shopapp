@@ -1,6 +1,18 @@
 <nav class="navbar main">
     <h1>TECHNO</h1>
+    <!--<input type="text" placeholder="find a product..." [(ngModel)]="search">-->
+
     <div class="control">
+
+        <div class="input-group">
+            <div class="form-outline">
+                <input type="search"  class="form-control" [(ngModel)]="search" placeholder="find a product..."/>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="SearchGood(search)">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+
         <button type="button" class="btn btn-primary" *ngIf="!checkAuth()"
                 routerLink="register">Register
         </button>
