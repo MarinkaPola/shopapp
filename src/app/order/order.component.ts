@@ -25,6 +25,7 @@ export class OrderComponent implements OnInit, OnDestroy {
     public sum: number;
     form: FormGroup;
     payment: string;
+    info:string;
     delivery: string;
     submitted = false;
     private sub_o: Subscription;
@@ -68,6 +69,7 @@ export class OrderComponent implements OnInit, OnDestroy {
         this.form = new FormGroup({
             delivery: new FormControl(null),
             payment: new FormControl(null),
+            info: new FormControl(null)
         });
 
     }
@@ -82,6 +84,7 @@ export class OrderComponent implements OnInit, OnDestroy {
         let request = {
             delivery: this.form.value.delivery,
             payment: this.form.value.payment,
+            info: this.form.value.info
         };
         console.log(request);
 

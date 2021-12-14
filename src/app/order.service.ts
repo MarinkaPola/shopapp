@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {Good, Order} from './shared/interface';
 import {environment} from '../environments/environment';
 import {map} from 'rxjs/operators';
@@ -14,6 +14,7 @@ export class OrderService {
     currentSum = this.sum.asObservable();
     private subjDelete = new Subject<any>();
     private subjDecrease = new Subject<any>();
+    private subjIncrease= new Subject<any>();
 
     constructor(private http: HttpClient, private alert: AlertService) {
     }
@@ -54,7 +55,7 @@ export class OrderService {
         return this.http.post(`${environment.Url}/good/in-basket`, request);
     }
 
-    increase(good: Good) {
+      increase(good: Good) {
         let good_pivot_count = good.pivot.count + 1;
         if (good_pivot_count <= good.count) {
             good.pivot.count=good_pivot_count;
@@ -69,7 +70,29 @@ export class OrderService {
             good_id: good.id,
             count: good.pivot.count
         };
+        console.log(request);
         return this.http.post(`${environment.Url}/good/in-basket`, request);
+    }
+
+    IncreaseInCart(){
+        this.subjIncrease.next({event: 'increase'});
+    }
+    getIncrease(): Observable<any> {
+        return this.subjIncrease.asObservable();
+    }
+
+
+    decrease(good: Good) {
+
+        if (good.pivot.count >= 2) {
+            good.pivot.count=good.pivot.count-1;
+        }
+        let request = {
+            good_id: good.id,
+            count: good.pivot.count
+        };
+        console.log(request);
+        return this.http.put(`${environment.Url}/good/out-basket`, request)
     }
 
     DecreaseInCart(){
@@ -77,17 +100,6 @@ export class OrderService {
     }
     getDecrease(): Observable<any> {
         return this.subjDecrease.asObservable();
-    }
-    decrease(good: Good) {
-
-        if (good.pivot.count > 1) {
-            good.pivot.count=good.pivot.count-1;
-        }
-        let request = {
-            good_id: good.id,
-            count: good.pivot.count
-        };
-        return this.http.put(`${environment.Url}/good/out-basket`, request)
     }
 
     getDelete(): Observable<any> {

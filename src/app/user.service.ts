@@ -99,6 +99,10 @@ export class UserService {
 
     getBasket() {
         return this.http.get(`${environment.Url}/user/basket-now`)
+            .pipe(map((response: ServerResponse) => {
+                console.log(response.data);
+                return response.data
+            }));
     }
 
     logout() {

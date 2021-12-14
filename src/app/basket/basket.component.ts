@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Subscription} from "rxjs";
 import {UserService} from "../user.service";
 import {OrderService} from "../order.service";
-import {Good,  ServerResponse} from "../shared/interface";
+import {Good} from "../shared/interface";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 
@@ -14,14 +14,14 @@ import {Router} from "@angular/router";
 export class BasketComponent implements OnInit, OnDestroy {
     goods: Good[];
     bSub: Subscription;
-  private subscription: Subscription;
-  error: any;
-
+    error: any;
     private response: any;
     sum: number;
     order_id: number;
+    private subscription: Subscription;
     private subscription2: Subscription;
     private subscription3: Subscription;
+    private subscription4: Subscription;
 
 
 
@@ -30,22 +30,27 @@ export class BasketComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService,
               private http: HttpClient, private orderService: OrderService,
               private router: Router)
-  {}
+  {
+  }
 
   ngOnInit(){
-
+     // this.getNewOrder();
       this.subscription = this.orderService.getMessageUpdateCart().subscribe(data => { if (data.event === 'AddToCart') {
           this.getNewOrder();
       }});
+
+      this.subscription2 = this.orderService.getDelete().subscribe(data => { if (data.event === 'Delete')  console.log(data.event);
+          {setTimeout(()=>{ this.getNewOrder(); console.log(data.event);}, 2000)}
+      });
+
+      this.subscription3 = this.orderService.getDecrease().subscribe(data => { if (data.event === 'decrease')  console.log(data.event);
+          {setTimeout(()=>{ this.getNewOrder(); console.log(data.event);}, 2000)}
+      });
+
+      this.subscription4 = this.orderService.getIncrease().subscribe(data => {  if (data.event === 'increase')
+      { setTimeout(()=>{ this.getNewOrder(); console.log(data.event);}, 2000)}
+      });
       this.getNewOrder();
-
-      this.subscription2 = this.orderService.getDelete().subscribe(data => { if (data.event === 'Delete') { console.log(data.event);
-          this.getNewOrder();
-      }});
-      this.subscription3 = this.orderService.getDecrease().subscribe(data => { if (data.event === 'decrease') { console.log(data.event);
-          this.getNewOrder();
-      }});
-
   }
 
   ngOnDestroy() {
@@ -55,9 +60,9 @@ export class BasketComponent implements OnInit, OnDestroy {
   }
 
    getNewOrder() {
-      this.bSub = this.userService.getBasket().subscribe((response:ServerResponse) => {
-          console.log(response.data);
-          this.goods= response.data;
+      this.bSub = this.userService.getBasket().subscribe(data => {
+          console.log(data);
+          this.goods= data;
           this.sum=0;
               for(let good of this.goods){
                   this.sum=this.sum+good.pivot.count*good.min_price;
@@ -76,7 +81,7 @@ export class BasketComponent implements OnInit, OnDestroy {
     Increase(good: Good) {
         this.orderService.increase(good).subscribe(data => {
             this.response = data;
-
+                console.log(data);
                 this.sum=this.sum + good.min_price*1.00;
                 this.orderService.changeSum(this.sum);
         },
@@ -84,7 +89,7 @@ export class BasketComponent implements OnInit, OnDestroy {
             this.error = error.message;
             console.log(error);
         });
-
+        this.orderService.IncreaseInCart();
     };
 
 
@@ -100,8 +105,7 @@ export class BasketComponent implements OnInit, OnDestroy {
                 this.error = error.message;
                 console.log(error);
         });
-        this.orderService.changeSum(this.sum);
-        if(good.pivot.count == 1){this.orderService.DecreaseInCart();}
+        this.orderService.DecreaseInCart();
     }
 
     Delete(good: Good) {
@@ -117,13 +121,6 @@ export class BasketComponent implements OnInit, OnDestroy {
 
     checkout() {
         this.router.navigate(['/order/',this.order_id]);
-    }
-
-    reloadComponent() {
-        let currentUrl = this.router.url;
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate([currentUrl]);
     }
 
 

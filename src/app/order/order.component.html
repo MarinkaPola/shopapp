@@ -1,5 +1,5 @@
 <div style="margin: 16px 50px" *ngIf=" user">
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form [formGroup]="form" id="usrform" (ngSubmit)="submit()">
         <div class="mb-3">
             <label for="first_name" class="form-label">first name</label>
             <input type="text" class="form-control" id="first_name" value="{{user.first_name}}">
@@ -32,6 +32,10 @@
             <option value="cash">cash</option>
             <option value="cod">cod</option>
         </select>
+        <div class="mb-3">
+            <label for="info" class="form-label">info</label>
+            <textarea  formControlName="info"  class="form-control" id="info"  placeholder="specify the delivery address and the desired carrier"></textarea>
+        </div>
         <div style="margin: 16px 0">the total amount of the order: {{this.sum}}</div>
         <button type="submit" class="btn btn-primary" [disabled]="form.invalid || submitted">send an order</button>
     </form>
