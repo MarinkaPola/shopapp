@@ -51,7 +51,7 @@ export class OrderService {
             good_id: good.id,
             count: count
         };
-
+      console.log(request);
         return this.http.post(`${environment.Url}/good/in-basket`, request);
     }
 

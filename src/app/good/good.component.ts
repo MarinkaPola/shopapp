@@ -23,8 +23,6 @@ export class GoodComponent implements OnInit {
   count: number;
   form: FormGroup;
   submitted = false;
-  reviews: Review[] = [];
-  private subjR: BehaviorSubject<any> = new BehaviorSubject([]);
     private dSub: Subscription;
     mark = 0;
 
@@ -55,7 +53,7 @@ export class GoodComponent implements OnInit {
       this.response = data;
     });
       this.orderService.UpdateCart();
-    this.router.navigate(['/basket']);
+      setTimeout(()=>{  this.router.navigate(['/basket']);}, 2000);
   }
 
   submit() {

@@ -1,5 +1,5 @@
 <div>
-    <div class="qty mt-5" *ngFor="let good of goods" >
+    <div class="qty mt-5" *ngFor="let good of goods " >
 
         <div>
             <img style="width: 28rem; margin: 16px;" src="{{good.photo}}">
@@ -18,7 +18,7 @@
         </div>
     <div *ngIf="(sum| number: '1.2-2')>0">{{sum| number: '1.2-2'}}</div>
     <a class="btn btn-warning" (click)="checkout()" *ngIf="(sum| number: '1.2-2')>0">checkout</a>
-    <h2 *ngIf="goods.length==0">cart is empty</h2>
+    <h2 *ngIf="goods?.length==0">cart is empty</h2>
 </div>
 
 

@@ -34,7 +34,7 @@ export class BasketComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(){
-     // this.getNewOrder();
+
       this.subscription = this.orderService.getMessageUpdateCart().subscribe(data => { if (data.event === 'AddToCart') {
           this.getNewOrder();
       }});

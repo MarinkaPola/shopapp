@@ -92,6 +92,7 @@ export class OrderComponent implements OnInit, OnDestroy {
             this.order = order;
             console.log(this.order);
         });
-        this.router.navigate(['/orders']);
+        setTimeout(()=>{ this.router.navigate(['/orders'])}, 2000);
+
     }
 }
