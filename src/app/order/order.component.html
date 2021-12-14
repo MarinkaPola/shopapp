@@ -36,7 +36,7 @@
             <label for="info" class="form-label">info</label>
             <textarea  formControlName="info"  class="form-control" id="info"  placeholder="specify the delivery address and the desired carrier"></textarea>
         </div>
-        <div style="margin: 16px 0">the total amount of the order: {{this.sum}}</div>
+        <div style="margin: 16px 0">the total amount of the order: {{this.sum| number: '1.2-2'}}</div>
         <button type="submit" class="btn btn-primary" [disabled]="form.invalid || submitted">send an order</button>
     </form>
 </div>
