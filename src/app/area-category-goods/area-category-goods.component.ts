@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit, VERSION} from '@angular/core';
-import {DataResponse, Good, Meta, QueryParam, ServerResponse} from "../shared/interface";
+import {Category, DataResponse, Good, Meta, QueryParam, ServerResponse} from "../shared/interface";
 import {Subscription} from "rxjs";
 import {GoodService} from "../good.service";
 import {ActivatedRoute, Params, PRIMARY_OUTLET, Router} from "@angular/router";
 import {NgModel} from "@angular/forms";
+import {CategoryService} from "../category.service";
 
 
 @Component({
@@ -26,6 +27,8 @@ export class AreaCategoryGoodsComponent implements OnInit, OnDestroy {
     public search: string='';
     query_param={ sortBy: 'rating', sortOrder: 'desc' };
     private subs: Subscription;
+    category: Category;
+    private categorySub: Subscription;
 
     public queryParams: Params = {
         search: this.search,
@@ -35,7 +38,9 @@ export class AreaCategoryGoodsComponent implements OnInit, OnDestroy {
         current_page: 1
     };
 
-    constructor(private goodService: GoodService, private route: ActivatedRoute, private router: Router) {
+
+    constructor(private goodService: GoodService, private route: ActivatedRoute,
+                private router: Router, private categoryService: CategoryService) {
         this.queryParam = {};
         this.subscription = route.params.subscribe(params => { this.queryParam.category_id=params['id'];
         console.log(params);
@@ -121,6 +126,15 @@ export class AreaCategoryGoodsComponent implements OnInit, OnDestroy {
                 console.log(error);
             },);
 
+        this.categorySub= this.categoryService.getById(this.queryParam).subscribe(category => {
+                this.category = category;
+                console.log(category);
+            },
+            error => {
+                this.error = error.message;
+                console.log(error);
+            },
+        )
     }
 
     getGoodsBrands() {

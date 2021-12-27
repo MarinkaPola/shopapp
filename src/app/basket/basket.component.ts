@@ -5,6 +5,7 @@ import {OrderService} from "../order.service";
 import {Good} from "../shared/interface";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {AlertService} from "../alert.service";
 
 @Component({
   selector: 'basket',
@@ -27,7 +28,7 @@ export class BasketComponent implements OnInit, OnDestroy {
 
 
 
-  constructor(private userService: UserService,
+  constructor(private userService: UserService, private alert: AlertService,
               private http: HttpClient, private orderService: OrderService,
               private router: Router)
   {
@@ -86,8 +87,8 @@ export class BasketComponent implements OnInit, OnDestroy {
                 this.orderService.changeSum(this.sum);
         },
         error => {
-            this.error = error.message;
-            console.log(error);
+            this.error = error.error.data;
+            this.alert.warning(this.error);
         });
         this.orderService.IncreaseInCart();
     };
@@ -120,6 +121,7 @@ export class BasketComponent implements OnInit, OnDestroy {
     }
 
     checkout() {
+        sessionStorage.setItem('order_sum', this.sum.toString());
         this.router.navigate(['/order/',this.order_id]);
     }
 

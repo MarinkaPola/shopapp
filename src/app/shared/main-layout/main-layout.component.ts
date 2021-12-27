@@ -5,16 +5,14 @@ import {UserService} from "../../user.service";
 import {GoodService} from "../../good.service";
 
 
-
-
 @Component({
-  selector: 'app-main-layout',
-  templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.scss']
+    selector: 'app-main-layout',
+    templateUrl: './main-layout.component.html',
+    styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent implements OnInit {
     user: UserAuth;
-    search :string = '';
+    search: string = '';
 
 
     constructor(private userService: UserService, private goodService: GoodService,
@@ -44,5 +42,13 @@ export class MainLayoutComponent implements OnInit {
         console.log(this.search);
         this.goodService.changeSearch(this.search);
         this.goodService.UpdateGoods();
+    }
+
+    onSearchChange() {
+        if (this.search == '') {
+            console.log(this.search);
+            this.goodService.changeSearch(this.search);
+            this.goodService.UpdateGoods();
+        }
     }
 }

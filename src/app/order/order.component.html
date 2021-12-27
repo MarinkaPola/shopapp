@@ -2,39 +2,50 @@
     <form [formGroup]="form" id="usrform" (ngSubmit)="submit()">
         <div class="mb-3">
             <label for="first_name" class="form-label">first name</label>
-            <input type="text" class="form-control" id="first_name" value="{{user.first_name}}">
+            <input type="text" class="form-control" id="first_name" value="{{user.first_name}}" disabled>
         </div>
         <div class="mb-3">
             <label for="last_name" class="form-label">last name</label>
-            <input type="text" class="form-control" id="last_name" value="{{user.last_name}}">
+            <input type="text" class="form-control" id="last_name" value="{{user.last_name}}" disabled>
         </div>
         <div class="mb-3">
             <label for="country" class="form-label">country</label>
-            <input type="text" class="form-control" id="country" value="{{user.country}}">
+            <input type="text" class="form-control" id="country" value="{{user.country}}" disabled>
         </div>
         <div class="mb-3">
             <label for="city" class="form-label">city</label>
-            <input type="text" class="form-control" id="city" value="{{user.city}}">
+            <input type="text" class="form-control" id="city" value="{{user.city}}" disabled>
         </div>
         <div class="mb-3">
             <label for="phone" class="form-label">phone</label>
-            <input type="text" class="form-control" id="phone" value="{{user.phone}}">
+            <input type="text" class="form-control" id="phone" value="{{user.phone}}" disabled>
         </div>
         <!--    <label for="payment" class="small">choose delivery method</label>-->
-        <select class="form-select"  style="margin-bottom:16px" formControlName="delivery" id="delivery">
+        <select class="form-select"  style="margin-bottom:16px" formControlName="delivery" id="delivery" required>
             <option [value]="null" hidden>choose delivery method</option>
             <option value="pickup">pickup</option>
             <option value="courier delivery">courier delivery</option>
         </select>
-        <select class="form-select" formControlName="payment" id="payment">
+        <select class="form-select" formControlName="payment" id="payment" required>
             <option [value]="null" hidden>select a payment method</option>
             <option value="paymentByCard">paymentByCard</option>
             <option value="cash">cash</option>
             <option value="cod">cod</option>
         </select>
-        <div class="mb-3">
+        <div class="mb-3 form-group" [ngClass]="{invalid: form.get('info').touched && form.get('info').invalid}">
             <label for="info" class="form-label">info</label>
-            <textarea  formControlName="info"  class="form-control" id="info"  placeholder="specify the delivery address and the desired carrier"></textarea>
+            <textarea  type="text" formControlName="info"  class="form-control" id="info"  placeholder="specify the delivery address and the desired carrier"></textarea>
+            <div *ngIf="form.get('info').touched && form.get('info').invalid" class="validation">
+                <div class="alert alert-warning" role="alert" *ngIf="form.get('info').errors.required">
+                    you have not entered information
+                </div>
+                <div class="alert alert-warning" role="alert" *ngIf="form.get('info').errors.minlength">
+                    minimum length 20 characters
+                </div>
+                <div class="alert alert-warning" role="alert" *ngIf="form.get('info').errors.maxlength">
+                    maximum length 200 characters
+                </div>
+            </div>
         </div>
         <div style="margin: 16px 0">the total amount of the order: {{this.sum| number: '1.2-2'}}</div>
         <button type="submit" class="btn btn-primary" [disabled]="form.invalid || submitted">send an order</button>

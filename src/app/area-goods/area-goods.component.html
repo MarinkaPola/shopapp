@@ -1,7 +1,7 @@
 <select [(ngModel)]="query_param" (change)="onChangeGoods($event)" [compareWith]="compareFn" >
-    <option [ngValue]="{'sortBy': 'price', 'sortOrder': 'asc'}" > От дешевых к дорогим</option>
-    <option [ngValue]="{'sortBy':'price', 'sortOrder':'desc'}" > От дорогих к дешевым</option>
-    <option [ngValue]="{'sortBy':'rating', 'sortOrder':'desc'}" > По рейтингу</option>
+    <option [ngValue]="{'sortBy': 'price', 'sortOrder': 'asc'}" >price low-high</option>
+    <option [ngValue]="{'sortBy':'price', 'sortOrder':'desc'}" > price high-low</option>
+    <option [ngValue]="{'sortBy':'rating', 'sortOrder':'desc'}" >sort by rating</option>
 </select>
 
 
@@ -10,7 +10,13 @@
     <option [ngValue]="brand" *ngFor="let brand of brands">{{brand}}</option>
 </select>
 
-<p >discount on goods in this area:  </p>
+<div *ngIf="area?.sales.length==!0">
+    <div *ngFor="let sale of area.sales">
+        <p>
+            discount on goods in this area: {{sale.value_percentage}}</p>
+    </div>
+</div>
+
 <div class="area-goods">
     <div *ngFor="let good of goods ">
         <div class="card" style="width: 18rem; margin: 10px;">
@@ -18,7 +24,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{good.title}}</h5>
                 <div>{{good.rating}}</div>
-                    <div *ngFor="let sale of good.category.area_category.sales ">{{sale.value_percentage}}
+                    <div *ngFor="let sale of good.category.area_category.sales">{{sale.value_percentage}}
 <!--                        <div *ngIf="sale.value_percentage as sale_area">{{sale_area}}</div>-->
                     </div>
                 <p class="card-text">{{good.feature}}</p>
@@ -27,10 +33,10 @@
         </div>
     </div>
 </div>
-<div *ngIf="goods.length ==0"><p class="not-found">loading goods...</p></div>
+<div *ngIf="goods.length ==0"><p class="not-found">nothing founds...</p></div>
 
 <div *ngIf="meta&&meta.last_page>1">
-    <button><a (click)="prevPage()">Prev</a></button>
+    <button *ngIf="meta&&meta.current_page>1"><a (click)="prevPage()">Prev</a></button>
     <p>Page {{meta.current_page}} of {{meta.last_page}}</p>
-    <button><a (click)="nextPage()">Next</a></button>
+    <button *ngIf="meta&&meta.current_page<meta.last_page"><a (click)="nextPage()">Next</a></button>
 </div>

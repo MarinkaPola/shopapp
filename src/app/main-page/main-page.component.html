@@ -1,7 +1,7 @@
 <select [(ngModel)]="query_param" (change)="onChangeGoods($event)" [compareWith]="compareFn" >
-    <option [ngValue]="{'sortBy': 'price', 'sortOrder': 'asc'}" > От дешевых к дорогим</option>
-    <option [ngValue]="{'sortBy':'price', 'sortOrder':'desc'}" > От дорогих к дешевым</option>
-    <option [ngValue]="{'sortBy':'rating', 'sortOrder':'desc'}" > По рейтингу</option>
+    <option [ngValue]="{'sortBy': 'price', 'sortOrder': 'asc'}" >price low-high</option>
+    <option [ngValue]="{'sortBy':'price', 'sortOrder':'desc'}" > price high-low</option>
+    <option [ngValue]="{'sortBy':'rating', 'sortOrder':'desc'}" >sort by rating</option>
 </select>
 
 
@@ -11,7 +11,7 @@
 </select>
 
 
-<div *ngIf="goods.length ==0"><p class="not-found">loading goods...</p></div>
+<div *ngIf="goods.length ==0"><p class="not-found">nothing founds...</p></div>
 
 <div class="main-page">
     <div *ngFor="let good of goods ">
@@ -30,7 +30,7 @@
 
 
 <div *ngIf="meta&&meta.last_page>1">
-    <button><a (click)="prevPage()">Prev</a></button>
+    <button *ngIf="meta&&meta.current_page>1"><a (click)="prevPage()">Prev</a></button>
     <p>Page {{meta.current_page}} of {{meta.last_page}}</p>
-    <button><a (click)="nextPage()">Next</a></button>
+    <button *ngIf="meta&&meta.current_page<meta.last_page"><a (click)="nextPage()">Next</a></button>
 </div>

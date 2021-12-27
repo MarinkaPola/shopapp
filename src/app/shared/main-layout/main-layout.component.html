@@ -6,7 +6,7 @@
 
         <div class="input-group">
             <div class="form-outline">
-                <input type="search"  class="form-control" [(ngModel)]="search" placeholder="find a product..."/>
+                <input type="search"  class="form-control" [(ngModel)]="search" (change)="onSearchChange()" placeholder="find a product..."/>
             </div>
             <button type="button" class="btn btn-primary" (click)="SearchGood(search)">
                 <i class="fa fa-search"></i>

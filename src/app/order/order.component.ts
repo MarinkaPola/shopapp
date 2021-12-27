@@ -57,19 +57,21 @@ export class OrderComponent implements OnInit, OnDestroy {
                 console.log(error);
             },
         );
-        this.subs = this.orderService.currentSum.subscribe(sum => this.sum = sum);
+        this.subs = this.orderService.currentSum.subscribe(sum => {
+        if(sum==0){
+            this.sum=parseFloat(sessionStorage.getItem('order_sum'));
+            console.log(this.sum);
+        }else{
+            this.sum = sum;
+        }}
+        );
         console.log(this.sum);
-
-        /* this.userSub=this.userService.getById(this.order.buyer_id).subscribe(user=>{
-             this.user = user;
-             console.log(this.user);
-         });*/
 
 
         this.form = new FormGroup({
             delivery: new FormControl(null),
             payment: new FormControl(null),
-            info: new FormControl(null)
+            info: new FormControl(null, [Validators.required, Validators.minLength(20), Validators.maxLength(200)])
         });
 
     }
@@ -92,7 +94,7 @@ export class OrderComponent implements OnInit, OnDestroy {
             this.order = order;
             console.log(this.order);
         });
+        sessionStorage.removeItem('order_sum');
         setTimeout(()=>{ this.router.navigate(['/orders'])}, 2000);
-
     }
 }

@@ -60,14 +60,6 @@ export class GoodService {
         return this.http.delete<Review>(`${environment.Url}/reviews/${review.id}`);
     }
 
-    updateReview(review: Review):Observable<Review> {
-        return this.http.put<Review>(`${environment.Url}/reviews/${review.id}`, review)
-            .pipe(map((data) => {
-                return {
-                    ...review,
-                }
-            }));
-    }
 
     public  changeSearch(search:string){
         this.search.next(search);

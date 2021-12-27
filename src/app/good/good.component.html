@@ -36,10 +36,10 @@
                 </ngb-rating>
             </div>
             <div>{{review.text}}</div>
-            <div style="margin: 5px">
+            <div style="margin: 5px" *ngIf="checkAuth()">
                 <button class="btn btn-primary" (click)="openReviewEdit(review)">edit</button>
             </div>
-            <div style="margin: 5px">
+            <div style="margin: 5px" *ngIf="checkAuth()">
                 <button class="btn btn-danger" (click)="removeReview(review)">delete</button>
             </div>
         </div>
@@ -62,6 +62,17 @@
         <div class="form-group">
             <label for="productReviewText">add your product review text</label>
             <input type="text" class="form-control" id="productReviewText" placeholder="Text review" formControlName="text" >
+            <div *ngIf="form.get('text').touched && form.get('text').invalid" class="validation">
+                <div class="alert alert-warning" role="alert" *ngIf="form.get('text').errors.required">
+                    you have not entered review
+                </div>
+                <div class="alert alert-warning" role="alert" *ngIf="form.get('text').errors.minlength">
+                    minimum length 20 characters
+                </div>
+                <div class="alert alert-warning" role="alert" *ngIf="form.get('text').errors.maxlength">
+                    maximum length 200 characters
+                </div>
+            </div>
         </div>
         <div class="form-group" style="visibility: hidden;">
             <input   class="form-control" id="id"  formControlName="id" value="">

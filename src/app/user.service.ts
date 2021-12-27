@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, BehaviorSubject} from 'rxjs';
 
-import {map} from 'rxjs/operators';
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {environment} from "../environments/environment";
 import {ServerResponse} from "./shared/interface";
 
@@ -21,7 +21,7 @@ export class UserService {
 
     private currentUserSubject = new BehaviorSubject<User>({} as User);
     private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-    // public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
+     public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
     // public isAuthenticated = this.isAuthenticatedSubject.asObservable().pipe(distinctUntilChanged());
 
 
@@ -119,9 +119,13 @@ export class UserService {
         this.router.navigate(['/']); // редирект на главную
     }
 
-    /*getUser(): User {
-        return this.currentUserSubject.value;
-    }*/
+    getCurrentUser() {
+        return this.http.get(`${environment.Url}/get-user`)
+            .pipe(map((response: ServerResponse) => {
+                console.log(response.data);
+                return response.data
+            }));
+    }
 
     register(user: User) {
         console.log(user);
@@ -134,11 +138,6 @@ export class UserService {
             }
         })
     }
-
-
-
-
-
 
 
 }

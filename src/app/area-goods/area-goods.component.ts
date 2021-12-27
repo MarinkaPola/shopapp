@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit, VERSION} from '@angular/core';
-import {DataResponse, Good, Meta, QueryParam, ServerResponse} from "../shared/interface";
+import {Area, DataResponse, Good, Meta, QueryParam, ServerResponse} from "../shared/interface";
 import {Subscription} from "rxjs";
 import {GoodService} from "../good.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {NgModel} from "@angular/forms";
+import {AreaService} from "../area.service";
 
 
 @Component({
@@ -27,6 +28,9 @@ export class AreaGoodsComponent implements OnInit, OnDestroy {
     query_param = {sortBy: 'rating', sortOrder: 'desc'};
     private subs: Subscription;
 
+    private areaSub: Subscription;
+    area: Area;
+
     public queryParams: Params = {
         search: this.search,
         sortBy: this.query_param.sortBy,
@@ -35,7 +39,9 @@ export class AreaGoodsComponent implements OnInit, OnDestroy {
         current_page: 1
     };
 
-    constructor(private goodService: GoodService, private route: ActivatedRoute, private router: Router) {
+
+    constructor(private goodService: GoodService, private route: ActivatedRoute,
+                private router: Router, private areaService: AreaService) {
         this.queryParam = {};
         this.subscription = route.params.subscribe(params => {
             this.queryParam.area_id = params['id'];
@@ -120,7 +126,15 @@ export class AreaGoodsComponent implements OnInit, OnDestroy {
                 console.log(error);
             },
         );
-
+        this.areaSub= this.areaService.getById(this.queryParam).subscribe(area => {
+                this.area = area;
+                console.log(area);
+            },
+            error => {
+                this.error = error.message;
+                console.log(error);
+            },
+            )
     }
 
 

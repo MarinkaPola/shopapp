@@ -14,27 +14,15 @@ export class AreaService {
 
     constructor(private http: HttpClient) {}
 
-    /*getAll(queryParam: any={}): Observable<Area[]> {
-      let  queryString=new URLSearchParams(queryParam).toString();
-      console.log(queryString);
-        return this.http.get<Area[]>(`${environment.Url}/area?${queryString}`)
-            .pipe(map((data)=>{
-                return (Object.keys(data).map(goods=>({...data[goods]})))[1].collection
-                }))
 
-
-    }*/
 
     getById(queryParam: any={}): Observable<Area> {
-        let  queryString=new URLSearchParams(queryParam).toString();
-        return this.http.get<Area>(`${environment}/area?${queryString}`)
-            .pipe(map((area: Area) => {
-                return {
-                    ...area
-
-                };
-
+      console.log(queryParam.area_id);
+        return this.http.get<Area>(`${environment.Url}/area/${queryParam.area_id}`)
+            .pipe(map((data) => {
+                return (Object.keys(data).map(area=>({...data[area]})))[1]
             }));
+
     }
 
 }

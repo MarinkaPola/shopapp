@@ -113,7 +113,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
                 this.error = error.message;
                 console.log(error);
             }
-        )
+        );
     }
 
 
