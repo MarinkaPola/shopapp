@@ -6,8 +6,8 @@
 
 
 <select [(ngModel)]="brand" (change)="onChangeBrand($event)" [compareWith]="compareFn">
-    <option [ngValue]="''">BRAND not selected</option>
-    <option [ngValue]="brand" *ngFor="let brand of brands">{{brand}}</option>
+    <option [value]="''">BRAND not selected</option>
+    <option [value]="brand" *ngFor="let brand of brands">{{brand}}</option>
 </select>
 
 
@@ -25,7 +25,17 @@
             <img class="card-img-top" src="{{good.photo}}" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">{{good.title}}</h5>
-                <div>{{good.rating}}</div>
+
+                <h5>{{good.price}}</h5>
+                <p *ngIf="good.sale_goods[0]">good sale: {{good.sale_goods[0].value_percentage}} %</p>
+
+                <ngb-rating [(rate)]="good.rating" readonly="true">
+                    <ng-template let-fill="fill" let-index="index" >
+                        <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                    </ng-template>
+                </ngb-rating>
+                <hr>
+
                 <div *ngFor="let sale of good.category.sales ">{{sale.value_percentage}}
                     <!--                        <div *ngIf="sale.value_percentage as sale_area">{{sale_area}}</div>-->
                 </div>

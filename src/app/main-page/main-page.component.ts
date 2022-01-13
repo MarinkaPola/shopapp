@@ -1,8 +1,10 @@
-import {Component, OnDestroy, OnInit, VERSION} from '@angular/core';
-import {DataResponse, Good, Meta, QueryParam, ServerResponse} from "../shared/interface";
+import {Component,  OnDestroy, OnInit, VERSION} from '@angular/core';
+import {DataResponse, Good, Meta,  ServerResponse} from "../shared/interface";
 import {GoodService} from "../good.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
+
+
 
 
 
@@ -23,9 +25,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     public search: string='';
     private subs: Subscription;
     i: number;
-    private subscription1: Subscription;
     query_param = {sortBy: 'rating', sortOrder: 'desc'};
-
 
 
     public queryParams: Params = {
@@ -36,14 +36,24 @@ export class MainPageComponent implements OnInit, OnDestroy {
         current_page: 1
     };
 
+    private paramsSub: Subscription;
+
     constructor(private goodService: GoodService, private route: ActivatedRoute, private router: Router) {
-        /* this.queryParam = {};
-         this.subscription1 = route.queryParamMap.subscribe(params => {
-             this.current_page = +params.get('current_page') || 0;
-             this.queryParam.current_page = this.current_page;
-             console.log(route.queryParamMap);
+         this.paramsSub = route.queryParamMap.subscribe(params => {
+             this.queryParams.search=params.get('search');
+             this.queryParams.sortBy=params.get('sortBy');
+             this.queryParams.sortOrder=params.get('sortOrder');
+             this.queryParams.brand=params.get('brand');
+             this.queryParams.current_page=params.get('current_page');
+             console.log(params);
+             console.log(this.queryParams);
+            if(this.queryParams.sortBy!==null&& this.queryParams.sortOrder!==null) {this.query_param={sortBy: this.queryParams.sortBy, sortOrder: this.queryParams.sortOrder};}
+            if(this.queryParams.brand!==null) {this.brand=this.queryParams.brand}
+             console.log(this.brand);
+             console.log(this.query_param);
+             this.getGoods(this.queryParams);
          });
-         this.getGoods();*/
+
     };
 
     ngOnInit() {
@@ -55,7 +65,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
         });
 
         this.getGoods(this.queryParams);
-        this.getGoodsBrands()
+        this.getGoodsBrands();
+
     }
 
 
@@ -66,8 +77,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     getGoods(queryParams) {
-        this.subs = this.goodService.currentSearch.subscribe(search => this.search = search);
+        console.log(queryParams.search);
+       this.subs = this.goodService.currentSearch.subscribe(search => this.search = search);
         console.log(this.queryParams.current_page);
+        console.log(this.search);
 
         if(this.search=='' ||(this.search!==''&& this.queryParams.current_page>1)||
             this.brand=='' ||(this.brand!==''&& this.queryParams.current_page>1))
@@ -103,6 +116,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
                         current_page: queryParams.current_page
                     }
             });
+        console.log(queryParams);
 
         this.iSub = this.goodService.getAll(queryParams).subscribe((data: DataResponse) => {
                 this.goods = data.data.collection;
@@ -164,4 +178,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
             this.getGoods(this.queryParams);
         }
     }
+
+
 }

@@ -37,6 +37,7 @@ export class AreaCategoryGoodsComponent implements OnInit, OnDestroy {
         brand: this.brand,
         current_page: 1
     };
+    private paramsSub: Subscription;
 
 
     constructor(private goodService: GoodService, private route: ActivatedRoute,
@@ -44,12 +45,21 @@ export class AreaCategoryGoodsComponent implements OnInit, OnDestroy {
         this.queryParam = {};
         this.subscription = route.params.subscribe(params => { this.queryParam.category_id=params['id'];
         console.log(params);
-        /*this.subscription1 = route.queryParamMap.subscribe(params => {
-            this.current_page = +params.get('current_page') || 0;
-            this.queryParam.current_page = this.current_page;
-            console.log(route.queryParamMap);
-        });*/
-        this.getNewGoods(this.queryParams);
+
+            this.paramsSub = route.queryParamMap.subscribe(params => {
+                this.queryParams.search=params.get('search');
+                this.queryParams.sortBy=params.get('sortBy');
+                this.queryParams.sortOrder=params.get('sortOrder');
+                this.queryParams.brand=params.get('brand');
+                this.queryParams.current_page=params.get('current_page');
+                console.log(params);
+                console.log(this.queryParams);
+                if(this.queryParams.sortBy!==null&& this.queryParams.sortOrder!==null) {this.query_param={sortBy: this.queryParams.sortBy, sortOrder: this.queryParams.sortOrder};}
+                if(this.queryParams.brand!==null) {this.brand=this.queryParams.brand}
+                console.log(this.brand);
+                console.log(this.query_param);
+                this. getNewGoods(this.queryParams);
+            });
         });
     }
 

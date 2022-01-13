@@ -13,8 +13,8 @@
 
     <p class="card-text">{{good.feature}}</p>
     <h5>{{good.price}}</h5>
-   <p>{{good.max_sale}}</p>
-    <p>price min: {{(100-good.max_sale)/100*good.price}}</p>
+   <p>max sale: {{good.max_sale}} %</p>
+    <p>price min: {{(100-good.max_sale)/100*good.price |  number: '1.2-2'}}</p>
    <!-- <div *ngFor="let sale1 of good.sales">sale good{{sale1.value_percentage}}</div>
     <div *ngFor="let sale2 of good.category.sales">sale category{{sale2.value_percentage}}</div>
     <div *ngFor="let sale3 of good.category.area_category.sales ">sale area{{sale3.value_percentage}}</div>-->

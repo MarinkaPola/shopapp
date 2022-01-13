@@ -73,7 +73,7 @@ export interface  Good {
     rating:number;
     category_id: number;
     category: Category;
-    sales?: Sale[];
+    sale_goods?: Sale[];
     reviews?: Review[];
     max_sale?: number;
     min_price?: number;
